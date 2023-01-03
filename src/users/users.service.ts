@@ -15,7 +15,7 @@ export class UsersService {
     const user = await this.userModel
       .findOne({ email: userDto.email })
       .select('+password');
-    if (user.email) {
+    if (user) {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

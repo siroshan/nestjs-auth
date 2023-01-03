@@ -21,6 +21,7 @@ export class AuthController {
     return this.authService.signUp(userDto);
   }
 
+  //this gurad checks if the user exists using local strategy
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
   signIn(

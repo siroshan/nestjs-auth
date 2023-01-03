@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { UserDocument } from './user.schema';
 
 @Controller('user')
 export class UsersController {
@@ -25,8 +27,8 @@ export class UsersController {
   }
 
   @Get('/me')
-  findMe() {
-    return this.usersService.findMe('user');
+  findMe(@GetUser() user: UserDocument) {
+    return this.usersService.findMe(user.id);
   }
 
   @Get(':id')
@@ -40,7 +42,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id, 'user');
+  remove(@Param('id') id: string, @GetUser() user: UserDocument) {
+    return this.usersService.remove(id, user.id);
   }
 }
