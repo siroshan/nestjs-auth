@@ -9,6 +9,8 @@ import {
 import { UserDto } from 'src/users/dto/user.dto';
 import { User } from 'src/users/user.schema';
 import { AuthService } from './auth.service';
+import { AuthCredentailsDto } from './dto/auth-credentials.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,9 +21,12 @@ export class AuthController {
     return this.authService.signUp(userDto);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('/signin')
-  signIn(@Request() req): Promise<{ accessToken: string }> {
-    return this.authService.signIn(req.user);
+  signIn(
+    @Body() authCredentialsDto: AuthCredentailsDto,
+  ): Promise<{ accessToken: string }> {
+    return this.authService.signIn(authCredentialsDto);
   }
 
   @Post('/:email')

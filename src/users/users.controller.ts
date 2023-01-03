@@ -19,15 +19,14 @@ export class UsersController {
     return this.usersService.create(userDto);
   }
 
-  @Public()
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get('/me')
-  findMe(@GetUser() user: any) {
-    return this.usersService.findMe(user.id);
+  findMe() {
+    return this.usersService.findMe('user');
   }
 
   @Get(':id')
@@ -41,7 +40,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @GetUser() user: any) {
-    return this.usersService.remove(id, user.id);
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(id, 'user');
   }
 }
