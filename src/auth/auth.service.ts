@@ -1,13 +1,10 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { UserDto } from 'src/users/dto/user.dto';
 import { User } from 'src/users/user.schema';
 import { JwtService } from '@nestjs/jwt';
+import { AuthCredentailsDto } from './dto/auth-credentials.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -42,9 +39,11 @@ export class AuthService {
     return this.usersService.create(userDto);
   }
 
-  async signIn(user: any): Promise<any> {
-    const payload = { email: user.email, sub: user.id };
+  async signIn(
+    authCredentailsDto: AuthCredentailsDto,
+  ): Promise<{ accessToken: string }> {
+    const payload = { email: authCredentailsDto.email };
     const accessToken: string = await this.jwtService.sign(payload);
-    return { accessToken, email: user.email, id: user.id };
+    return { accessToken };
   }
 }

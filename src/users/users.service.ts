@@ -12,6 +12,19 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
   async create(userDto: UserDto): Promise<User> {
+    const user = await this.userModel
+      .findOne({ email: userDto.email })
+      .select('+password');
+    if (user.email) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Email already in use',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    //hashing the password
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(userDto.password, salt);
     userDto.password = hash;
@@ -37,16 +50,7 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    if (id === id) {
-      return await this.userModel.findByIdAndUpdate(id, updateUserDto);
-    }
-    throw new HttpException(
-      {
-        status: HttpStatus.UNAUTHORIZED,
-        error: 'Your session does not match',
-      },
-      HttpStatus.UNAUTHORIZED,
-    );
+    return await this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
   async remove(id: string, sid: string) {
