@@ -22,6 +22,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
+    // here user is retrieved using the email in payload
+    // and returned.
+
+    // if only the user id is need, we can add the id
+    // in the payload in sigin in auth service and retrive
+    // it here and return the id
     const { email } = payload;
     const user: User = await this.usersService.findOneByEmail(email);
 
