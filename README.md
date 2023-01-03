@@ -1,4 +1,4 @@
-# Nest Auth Example
+# Nest Authentication and Authorization Example
 
 This is an example for implementing authentication and authorization in [NextJS](https://nestjs.com) framework with [MongoDB](https://www.mongodb.com/) as database. Switch to postgres branch for PostgreSQL example.
 
