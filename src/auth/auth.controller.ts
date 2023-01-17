@@ -11,7 +11,7 @@ import { User } from 'src/users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthCredentailsDto } from './dto/auth-credentials.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Public } from './public.decorators.ts/public.decorator';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
